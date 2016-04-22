@@ -65,7 +65,7 @@ webpackRequire(
     // once even if you call factory() multiple times.
     var context = factory();
     console.time('testing');
-    context.main(`
+    var document = `
       <!doctype html>
       <html lang="en">
         <head>
@@ -77,7 +77,11 @@ webpackRequire(
           <app>
         </body>
       </html>
-    `)
+    `;
+
+    var originUrl = 'http://localhost3000';
+    context.main(document, originUrl)
+
     .then(html => {
       console.timeEnd('testing');
       console.log('html', html);

@@ -5,6 +5,7 @@ require('zone.js/dist/zone-node.js');
 import {Parse5DomAdapter} from 'angular2/src/platform/server/parse5_adapter';
 Parse5DomAdapter.makeCurrent();
 
+import {ORIGIN_URL} from 'angular2-universal/common';
 import {bootstrap} from 'angular2-universal/dist/node/platform/node';
 import {serializeDocument, parseDocument} from 'angular2-universal/dist/node/platform/document';
 
@@ -32,9 +33,9 @@ class App {
 }
 
 
-export  function main(document) {
+export function main(document, originUrl) {
   return bootstrap(App, [
-
+      provide(ORIGIN_URL, {useValue: originUrl}),
       provide(DOCUMENT, {
         useFactory: (domSharedStylesHost: DomSharedStylesHost) => {
           var doc: any = parseDocument(document);
