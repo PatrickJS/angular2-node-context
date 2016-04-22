@@ -1,10 +1,11 @@
 console.time('script');
-import * as path from 'path';
-
-var webpackRequire = require('webpack-require');
-var webpack = require('webpack');
 import 'angular2-universal/polyfills';
 
+import * as path from 'path';
+
+
+const webpackRequire = require('webpack-require');
+const webpack = require('webpack');
 
 var _global: any = {
   Reflect: Reflect,
@@ -19,39 +20,44 @@ var _global: any = {
 };
 
 _global.global = _global;
-webpackRequire(
-  {
-    target: 'node',
-    resolve: {
-      extensions: ['', '.ts', '.js', '.json']
-    },
-    module: {
-      loaders: [
-        // TypeScript
-        { test: /\.ts$/, loader: 'ts-loader' },
-        { test: /\.json$/, loader: 'json-loader' }
-      ]
-    },
-    plugins: [
-      new webpack.optimize.OccurenceOrderPlugin(true)
-    ],
-    node: {
-      global: true,
-      __dirname: true,
-      __filename: true,
-      setTimeout: true,
-      setInterval: true,
-      process: true,
-      Buffer: true
-    }
+
+var _universalContext = path.resolve(path.join(__dirname, './universal-context.ts'));
+var _reuseModules = [
+  'url',
+  'http',
+  'https',
+  'fs'
+];
+var _webpackConfig = {
+  target: 'node',
+  resolve: {
+    extensions: ['', '.ts', '.js', '.json']
   },
-  path.resolve(path.join(__dirname, './universal-context.ts')),
-  [
-    'url',
-    'http',
-    'https',
-    'fs'
+  module: {
+    loaders: [
+      // TypeScript
+      { test: /\.ts$/, loader: 'ts-loader' },
+      { test: /\.json$/, loader: 'json-loader' }
+    ]
+  },
+  plugins: [
+    new webpack.optimize.OccurenceOrderPlugin(true)
   ],
+  node: {
+    global: true,
+    __dirname: true,
+    __filename: true,
+    setTimeout: true,
+    setInterval: true,
+    process: true,
+    Buffer: true
+  }
+};
+
+webpackRequire(
+  _webpackConfig,
+  _universalContext,
+  _reuseModules,
   _global,
   function(err, factory, stats, fs) {
     if (err) {
@@ -65,19 +71,18 @@ webpackRequire(
     // once even if you call factory() multiple times.
     var context = factory();
     console.time('testing');
-    var document = `
-      <!doctype html>
-      <html lang="en">
-        <head>
-          <title>Universal</title>
-        </head>
-        <body>
-          <app>
-            Loading...
-          <app>
-        </body>
-      </html>
-    `;
+    var document = `<!doctype html>
+<html lang="en">
+  <head>
+    <title>Universal</title>
+  </head>
+  <body>
+    <app>
+      Loading...
+    <app>
+  </body>
+</html>
+`;
 
     var originUrl = 'http://localhost3000';
     context.main(document, originUrl)
