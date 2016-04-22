@@ -84,7 +84,7 @@ webpackRequire(
 
     .then(html => {
       console.timeEnd('testing');
-      console.log('html', html);
+      console.log('generated HTML\n', html);
     });
 
     // You can inspect the build process by looking at the stats object
