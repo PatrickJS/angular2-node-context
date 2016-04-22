@@ -44,6 +44,6 @@
     "webpack": "^1.12.10",
     "webpack-dev-server": "^1.14.0",
     "webpack-merge": "^0.8.4",
-    "webpack-require": "0.0.16"
+    "webpack-require": "git@github.com:gdi2290/webpack-require.git#remove-global"
   }
 }
