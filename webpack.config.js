@@ -16,21 +16,21 @@ var commonConfig = {
   ]
 };
 
-
-var clientConfig = {
-  target: 'web',
-  entry: './src/client',
-  output: {
-    path: path.join(__dirname, 'dist', 'client')
-  },
-  node: {
-    global: true,
-    __dirname: true,
-    __filename: true,
-    process: true,
-    Buffer: false
-  }
-};
+//
+// var clientConfig = {
+//   target: 'web',
+//   entry: './src/client',
+//   output: {
+//     path: path.join(__dirname, 'dist', 'client')
+//   },
+//   node: {
+//     global: true,
+//     __dirname: true,
+//     __filename: true,
+//     process: true,
+//     Buffer: false
+//   }
+// };
 
 
 var serverConfig = {
@@ -74,7 +74,7 @@ var defaultConfig = {
 var webpackMerge = require('webpack-merge');
 module.exports = [
   // Client
-  webpackMerge({}, defaultConfig, commonConfig, clientConfig),
+  // webpackMerge({}, defaultConfig, commonConfig, clientConfig),
 
   // Server
   webpackMerge({}, defaultConfig, commonConfig, serverConfig)
